@@ -1,5 +1,5 @@
 "ui";
-版本='v1.0.4'
+版本='v1.0.4.1'
 const APPID = 'aa0da8d846d34075a61da6762c0e04a2';// APPID
 const REST_ID = 'de4902c46e3c35f00e9c1679c47a106a'; //REST ID
 if(files.isFile('./modules/Time.js')){
