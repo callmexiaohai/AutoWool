@@ -594,8 +594,6 @@ ui.emitter.on("resume", function () {
 });
 
 
-
-
 main();
 /**
  * @param {测试用} msg 
@@ -838,7 +836,7 @@ ui.通用执行.click(function () {
         }
     });
     
-    threads.start(function () {
+    threads.start(function () { 
         //在新线程执行的代码
         if(files.isFile('./modules/woolfeels.js')){
             var appArrayrc = getAppList();
@@ -857,10 +855,10 @@ ui.通用执行.click(function () {
                 woolfeels.woolfeel(appArrayrc, foreachTimes, screenSileTimes, isShowConsole, timesInterval);
         
             }
-        }
+        }   
 
-        });
-        
+    });
+});
 
 
 
