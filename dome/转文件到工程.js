@@ -9,6 +9,8 @@
 移动文件('辅助小管家',"modules",'Bmobmodules.js')
 移动文件('辅助小管家',"modules",'热更新.js')
 移动文件('辅助小管家',"modules",'woolStorages.js')
+移动文件('辅助小管家',"",'github下载的脚本.js')
+移动文件('辅助小管家',"",'转文件到工程.js')
 
 移动文件('辅助小管家','help','Autojs开发.md')
 移动文件('辅助小管家','help','README.txt')
