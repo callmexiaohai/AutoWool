@@ -1,5 +1,6 @@
 "ui";
-var 版本='v1.0.6'
+
+
 const APPID = 'aa0da8d846d34075a61da6762c0e04a2';// APPID
 const REST_ID = 'de4902c46e3c35f00e9c1679c47a106a'; //REST ID
 if(files.isFile('./modules/Time.js')){
@@ -18,7 +19,18 @@ if(files.isFile('./modules/wools.js')){
     var wools = require('./modules/wools.js');
     log(wools.测试模块是否可用)
 }
+if(files.isFile('./vesion.js')){
+    var 版本 = require('./vesion.js');
+    var hsyStorage = storages.create("huangshao_yi@163.com");//创建本地存储
+    var 当前版本 = hsyStorage.get("版本");
 
+    if(版本.版本!==当前版本){  
+        log(版本.版本,当前版本)
+        var hsyStorage = storages.create("huangshao_yi@163.com");//创建本地存储
+        hsyStorage.put("版本", 版本.版本);
+    
+    }
+}
 
 
 /*------------bmob数据库的增删改查*------------*/ 
@@ -596,6 +608,70 @@ ui.emitter.on("resume", function () {
     ui.autoService.checked = auto.service != null;
 });
 
+检查更新();
+/**
+ * 
+ * @param {打开自动自检更新} msg 
+ */
+function 检查更新(msg){
+    threads.start(function () {
+    var msg='打开自动更新'
+
+    // 开发节点
+    var IMEI =device.getIMEI()
+    log('当前设备IMEI:'+IMEI)
+    //BQL查询 按版本号排序，显示页面从第2条记录开始显示1条记录，翻页可以使用
+    // log(bmob.BQL("select * from iPhone  where iPhoneImei='"+IMEI+"'").results[0])
+    // log(result)
+
+    
+    // 判断当前设备是否注册！！
+    var imeinull= bmob.BQL("select * from iPhone  where iPhoneImei='"+IMEI+"'").results.length
+    log("该手机是否注册："+imeinull)
+    if(imeinull=='1'){
+        log('开始更新')
+        
+        var url="https://github.com/callmexiaohai/AutoWool.git"
+        githubUrl=url.replace('.git','')+'/archive/main.zip'
+        // log(githubUrl)
+        仓库名字=githubUrl.split('/')[4]
+        作者名字=githubUrl.split('/')[3]
+
+        github下载的脚本=获取下载的脚本()
+        log(github下载的脚本)
+        // /storage/emulated/0/脚本/辅助小管家/zip文件专用dome/test/AutoWool-main/main.js
+        // files.read(github下载的脚本.replace('zip文件专用dome/test/'+仓库名字+'-main/main.js','vesion.js')) //文件太大，读取bytes 会报错
+        log('下载完成')
+        sleep(2000)
+        移动(github下载的脚本)
+        sleep(2000)
+        var a=files.cwd()+"/main.js"
+        engines.execScriptFile(a);
+
+
+
+        // var app返回结果= bmob.BQL("select * from vesionup where softName='私房钱辅助助手'").results
+        // log('文件个数：'+app返回结果.length)
+        // for(var i=0;i<app返回结果.length;i++){
+        //     if(files.isFile('./modules/热更新.js')){
+        //         热更新.更新(app返回结果[i].jsUrl,app返回结果[i].fileTree,app返回结果[i].jsName)
+                
+        //     }
+        // }
+
+
+
+
+
+
+    }else{
+        log('该手机尚未注册，请注册！')
+    }
+    });
+
+}
+
+
 
 main();
 /**
@@ -604,6 +680,7 @@ main();
 function main(msg){
     threads.start(function () {
         msg='测试用'
+        // 移动("/storage/emulated/0/脚本/辅助小管家/zip文件专用dome/test/AutoWool-main/main.js")
         /**测试wools模块 */
         
         // /**测试通用执行 */
@@ -697,13 +774,6 @@ function 加载左上角菜单栏(msg) {
             case "检查更新":
                 threads.start(function () {
 
-
-
-
-
-
-
-
                     // 开发节点
                     var IMEI =device.getIMEI()
                     log('当前设备IMEI:'+IMEI)
@@ -717,11 +787,17 @@ function 加载左上角菜单栏(msg) {
                     log("该手机是否注册："+imeinull)
                     if(imeinull=='1'){
                         log('开始更新')
+                        var url="https://github.com/callmexiaohai/AutoWool.git"
+                        githubUrl=url.replace('.git','')+'/archive/main.zip'
+                        // log(githubUrl)
+                        仓库名字=githubUrl.split('/')[4]
+                        作者名字=githubUrl.split('/')[3]
+
                         github下载的脚本=获取下载的脚本()
                         log(github下载的脚本)
                         log('下载完成')
                         sleep(2000)
-                        移动()
+                        移动(github下载的脚本)
                         sleep(2000)
                         var a=files.cwd()+"/main.js"
                         engines.execScriptFile(a);
@@ -928,7 +1004,7 @@ function 获取下载的脚本(){
     log('解压的文件夹路径=',文件夹路径)
     files.createWithDirs(文件夹路径) //如果文件不存在，创建一个文件，如果存在，返回 false
     com.stardust.io.Zip.unzip(new java.io.File(文件路径), new java.io.File(文件夹路径))
-    return 文件夹路径+仓库名字+"-master"+"/main.js"
+    return 文件夹路径+仓库名字+"-main"+"/main.js"
     
   }
   
@@ -941,18 +1017,26 @@ function 获取下载的脚本(){
     log("父目录=",r)
   }
   
-  function 移动(){//遍历文件夹下所有的文件夹和文件
+  function 移动(文件路径){//遍历文件夹下所有的文件夹和文件
+    //同一目录下的同一文件名
       log('开始移动')
-    var dir = engines.myEngine().cwd()+"/zip文件专用dome/test/Autojs-main";
+    //   /storage/emulated/0/脚本/辅助小管家/zip文件专用dome/test/AutoWool-main/main.js
+    var dir = 文件路径.replace('main.js','');
+    log('zip文件专用dome/test/'+仓库名字+'-main/main.js')
+    var softduir= 文件路径.replace('zip文件专用dome/test/'+仓库名字+'-main/main.js','');
+    log('下载路径：',dir)
+    log('软件路径：',softduir)
     var arr = files.listDir(dir);
+
+
     log(dir+arr.length)
+    log('文件路径:',文件路径)
     for(i=0;i<arr.length;i++){
       log("根目录："+i+'--->'+arr[i]);
         var arr1 = files.listDir(dir+"/"+arr[i]);
         if(arr1.length==0){
-          var dir1=dir+"/"+arr[i]
-          var arro=dir1
-          var arrn=dir1.replace('zip文件专用dome/test/Autojs-main/','')      
+          var arro=dir+arr[i] 
+          var arrn=softduir+arr[i]      
           log('原文件路径：'+arro)      
           log('需移动文件路径：'+arrn)
           log(files.move(arro,arrn))
@@ -961,9 +1045,9 @@ function 获取下载的脚本(){
           log(dir+"/"+arr[i]+"有："+arr1.length+"文件")
           for(ii=0;ii<arr1.length;ii++){
             log(arr1[i]+"目录："+ii+'--->'+arr1[ii]);
-            var dir1=dir+"/"+arr[i]+"/"+arr1[i]
+            var dir1=dir+arr[i]+"/"+arr1[i]
             var arro=dir1
-            var arrn=dir1.replace('zip文件专用dome/test/Autojs-main/','')      
+            var arrn=dir1.replace('zip文件专用dome/test/'+仓库名字+'-main/','')      
             log('原文件路径：'+arro)      
             log('需移动文件路径：'+arrn)
             log(files.move(arro,arrn))
