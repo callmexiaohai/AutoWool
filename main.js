@@ -1,40 +1,16 @@
-"ui";
-
+"ui"; 
 var url="https://github.com/callmexiaohai/AutoWool.git"
 var githubUrl=url.replace('.git','')+'/archive/main.zip'
 // log(githubUrl)
 var 仓库名字=githubUrl.split('/')[4]
 var 作者名字=githubUrl.split('/')[3]
 log('仓库名字,作者名字:',仓库名字,作者名字)
-模块是否存在('Time')
-模块是否存在('热更新')
-模块是否存在('woolfeels')
-模块是否存在('wools')
-var 版本 =模块是否存在('版本')
-var 版本=版本.版本
-
-// log(vesion.版本)
-// var 版本=vesion.版本;
-// if(files.isFile('./modules/Time.js')){
-//     var Time = require('./modules/Time.js');
-//     log(Time.测试模块是否可用)
-// }
-// if(files.isFile('./modules/热更新.js')){
-//     var 热更新 = require('./modules/热更新.js');
-//     log(热更新.测试模块是否可用)
-// }
-// if(files.isFile('./modules/woolfeels.js')){
-//     var woolfeels = require('./modules/woolfeels.js');
-//     log(woolfeels.测试模块是否可用)
-// }
-// if(files.isFile('./modules/wools.js')){
-//     var wools = require('./modules/wools.js');
-//     log(wools.测试模块是否可用)
-// }
-// if(files.isFile('./vesion.js')){
-//     var 获取版本 = require('./vesion.js');
-//     var 版本=获取版本.版本;
-// }
+if(模块是否存在('Time')){var Time=模块导入('Time')};
+if(模块是否存在('热更新')){var 热更新=模块导入('热更新')};
+if(模块是否存在('woolfeels')){var woolfeels=模块导入('woolfeels')};
+if(模块是否存在('wools')){var wools=模块导入('wools')};
+if(模块是否存在('版本')){var 获取版本=模块导入('版本');var 版本=获取版本.版本;var 研发专用服务器版本=获取版本.服务器版本;log(版本,研发专用服务器版本);};//研发专用，需要更新上2020-10-14版本 v1.0.6
+log('研发进度：将更新日志，放入版本模块中，读取array到app显示',获取版本.更新20201014) 
 
 const APPID = 'aa0da8d846d34075a61da6762c0e04a2';// APPID
 const REST_ID = 'de4902c46e3c35f00e9c1679c47a106a'; //REST ID
@@ -246,9 +222,8 @@ ui.layout(
                             {/* <checkbox id="fanqie" text="番茄免费小说" textSize="16sp" />
                             <checkbox id="taokandian" text="淘看点" textSize="16sp" /> */}
                             <horizontal gravity="right">
-                                <button style="Widget.AppCompat.Button.Colored" id="测试" text="测试" padding="12dp" w="auto" />
                                 <button style="Widget.AppCompat.Button.Colored" id="通用执行" text="执行" padding="12dp" w="auto" />
-                                 <button style="Widget.AppCompat.Button.Colored" id="关闭线程" text="关闭线程" />
+                                <button style="Widget.AppCompat.Button.Colored" id="关闭线程" text="关闭线程" />
                             </horizontal>
                         </vertical>
                     </scroll>
@@ -364,7 +339,6 @@ ui.layout(
             <toolbar id="toolbar" title="辅助助手开发日志"/>
             {/* 颜色选取 用（大漠综合工具）*/}
         </appbar>
-
 
 
 
@@ -613,8 +587,22 @@ ui.emitter.on("resume", function () {
     // 此时根据无障碍服务的开启情况，同步开关的状态
     ui.autoService.checked = auto.service != null;
 });
+if(研发专用服务器版本!==版本){
+    log(研发专用服务器版本,版本)
+    log('服务器版本有更新了')
+    服务器版本更新(研发专用服务器版本)  //开发者是否上传服务器是否存在更新
+}
 
-检查更新();
+function 服务器版本更新(msg){
+    threads.start(function () {
+        var objectId= bmob.BQL("select * from vesionup where softName='辅助小管家'").results[0].objectId//获取objectId
+        log('获取服务器版本objectId：',objectId)
+        log(bmob.updateObject("vesionup",objectId,{"jsVesion":msg})) //更新数据
+    });
+
+}
+
+// 检查更新();
 /**
  * 
  * @param {打开自动自检更新} msg 
@@ -640,14 +628,15 @@ function 检查更新(msg){
             log('app返回版本:',app返回版本)
             log('当前版本:',版本)
             if(版本!==app返回版本){
-                github下载的脚本=获取下载的脚本()
-                log('github下载的脚本:',github下载的脚本)
-                log('下载完成')
-                sleep(2000)
-                移动(github下载的脚本)
-                sleep(2000)
-                var a=files.cwd()+"/main.js"
-                engines.execScriptFile(a);
+                log('服务器有最新版本，我要更新了')
+                // github下载的脚本=获取下载的脚本()
+                // log('github下载的脚本:',github下载的脚本)
+                // log('下载完成')
+                // sleep(2000)
+                // 移动(github下载的脚本)
+                // sleep(2000)
+                // var a=files.cwd()+"/main.js"
+                // engines.execScriptFile(a);
 
             }else{
                 log('当前版本是最新版')
@@ -659,70 +648,6 @@ function 检查更新(msg){
 
 }
 
-
-
-main();
-/**
- * @param {测试用} msg 
- */
-function main(msg){
-    threads.start(function () {
-        msg='测试用'
-        // 移动("/storage/emulated/0/脚本/辅助小管家/zip文件专用dome/test/AutoWool-main/main.js")
-        /**测试wools模块 */
-        
-        // /**测试通用执行 */
-        // var appArrayrc = getAppList();
-        // for(var i=0;i<appArrayrc.length;i++){
-        //     log(appArrayrc[i])          
-        // }
-
-        // if(files.isFile('./modules/woolfeels.js')){
-        //     log(woolfeels.测试模块是否可用);
-        //     var woolStorage = storages.create("huangshao_yi@163.com");//创建本地存储
-        //     var foreachTimes = woolStorage.get("foreachTimes");
-        //     var screenSileTimes = woolStorage.get("screenSileTimes");
-        //     var isShowConsole = woolStorage.get("isShowConsole");
-        //     var timesInterval = woolStorage.get("timesInterval");
-           
-        //     log(appArrayrc, foreachTimes, screenSileTimes, isShowConsole, timesInterval);
-        //     woolfeels.woolfeel(appArrayrc, foreachTimes, screenSileTimes, isShowConsole, timesInterval);
-    
-        // }
-
-
-
-        // /**测试更新文件 */
-        // 测试更新模块()
-        // function 测试更新模块(){
-        //     var app返回结果= bmob.BQL("select * from vesionup where softName='私房钱辅助助手'").results
-        //     log('文件个数：'+app返回结果.length)
-        //     for(var i=0;i<app返回结果.length;i++){
-        //         if(files.isFile('./modules/热更新.js')){
-        //             热更新.更新(app返回结果[i].jsUrl,app返回结果[i].fileTree,app返回结果[i].jsName)
-                    
-        //         }
-        //     }
-        // }
-
-
-        // /**测试时间模块 */
-        // if(files.isFile('./modules/Time.js')){
-        //     log(Time.时间)
-        //     log(Time.getTime)
-        // }
-
-
-        // /**测试前端app选取模块 */
-        // var appArrayrc = getAppList();
-        // for(var i=0;i<appArrayrc.length;i++){
-        //     log(appArrayrc[i])          
-        // }
-
-
-    });
-    
-}
 
 
 
@@ -770,48 +695,31 @@ function 加载左上角菜单栏(msg) {
                     // log(result)
                 
                     
-                    // 判断当前设备是否注册！！
+                    // 判断当前设备是否注册！！                    
                     var imeinull= bmob.BQL("select * from iPhone  where iPhoneImei='"+IMEI+"'").results.length
                     log("该手机是否注册："+imeinull)
                     if(imeinull=='1'){
                         log('开始更新')
-
-                        var app返回版本= bmob.BQL("select * from vesionup where softName='辅助小管家'").results
-                        log(app返回版本)
-                        if(1==2){
-                            github下载的脚本=获取下载的脚本()
-                            log(github下载的脚本)
-                            log('下载完成')
-                            sleep(2000)
-                            移动(github下载的脚本)
-                            sleep(2000)
-                            var a=files.cwd()+"/main.js"
-                            engines.execScriptFile(a);
-
+                        var app返回版本= bmob.BQL("select * from vesionup where softName='辅助小管家'").results[0].jsVesion
+                        log('app返回版本:',app返回版本)
+                        log('当前版本:',版本)
+                        if(版本!==app返回版本){
+                            log('服务器有最新版本，我要更新了')
+                            // github下载的脚本=获取下载的脚本()
+                            // log('github下载的脚本:',github下载的脚本)
+                            // log('下载完成')
+                            // sleep(2000)
+                            // 移动(github下载的脚本)
+                            // sleep(2000)
+                            // var a=files.cwd()+"/main.js"
+                            // engines.execScriptFile(a);
+            
                         }else{
                             log('当前版本是最新版')
                         }
-
-
-
-                        // var app返回结果= bmob.BQL("select * from vesionup where softName='私房钱辅助助手'").results
-                        // log('文件个数：'+app返回结果.length)
-                        // for(var i=0;i<app返回结果.length;i++){
-                        //     if(files.isFile('./modules/热更新.js')){
-                        //         热更新.更新(app返回结果[i].jsUrl,app返回结果[i].fileTree,app返回结果[i].jsName)
-                                
-                        //     }
-                        // }
-
-
-
-
-
-
                     }else{
                         log('该手机尚未注册，请注册！')
                     }
-                    
                     //更新列表，包含新增js
                     //读取目录，勾选进行新增&更新
                 });
@@ -933,23 +841,20 @@ ui.通用执行.click(function () {
     
     threads.start(function () { 
         //在新线程执行的代码
-        if(files.isFile('./modules/woolfeels.js')){
+        if(模块是否存在('woolfeels')){
             var appArrayrc = getAppList();
             for(var i=0;i<appArrayrc.length;i++){
                 log(appArrayrc[i])          
             }
+            var woolStorage = storages.create("huangshao_yi@163.com");//创建本地存储
+            var foreachTimes = woolStorage.get("foreachTimes");
+            var screenSileTimes = woolStorage.get("screenSileTimes");
+            var isShowConsole = woolStorage.get("isShowConsole");
+            var timesInterval = woolStorage.get("timesInterval");
+           
+            log(appArrayrc, foreachTimes, screenSileTimes, isShowConsole, timesInterval);
+            woolfeels.woolfeel(appArrayrc, foreachTimes, screenSileTimes, isShowConsole, timesInterval);
     
-            if(files.isFile('./modules/woolfeels.js')){
-                var woolStorage = storages.create("huangshao_yi@163.com");//创建本地存储
-                var foreachTimes = woolStorage.get("foreachTimes");
-                var screenSileTimes = woolStorage.get("screenSileTimes");
-                var isShowConsole = woolStorage.get("isShowConsole");
-                var timesInterval = woolStorage.get("timesInterval");
-               
-                log(appArrayrc, foreachTimes, screenSileTimes, isShowConsole, timesInterval);
-                woolfeels.woolfeel(appArrayrc, foreachTimes, screenSileTimes, isShowConsole, timesInterval);
-        
-            }
         }   
 
     });
@@ -1051,16 +956,154 @@ function 获取下载的脚本(){
     
   }
   
-function 模块是否存在(jsname){
-    if(files.isFile('./modules/'+jsname+'.js')){
+  function 模块是否存在(jsname){
+      return (files.isFile('./modules/'+jsname+'.js'))
+  }
+
+
+  
+function 模块导入(jsname){
       var jsname = require('./modules/'+jsname+'.js');
       log(jsname.测试模块是否可用)
       return jsname
-  }
+  
 
 }
 
+/**
+ * 获取被选择的app，按循序存入数组中
+ */
+function getAppList() {
+    var appArray = new Array(); //app集合
+ 
+    var kuaishou = ui.kuaishou.isChecked();
+    if (kuaishou) {
+        appArray.push(ui.kuaishou.getText());
+    }
+    var douyin = ui.douyin.isChecked();
+    if (douyin) {
+        appArray.push(ui.douyin.getText());
+    }
+ 
+    var shuabao = ui.shuabao.isChecked();
+    if (shuabao) {
+        appArray.push(ui.shuabao.getText());
+    }
+   
+    var huoshan = ui.huoshan.isChecked();
+    if (huoshan) {
+        appArray.push(ui.huoshan.getText());
+    }
+
+    var weishi = ui.weishi.isChecked();
+    if (weishi) {
+        appArray.push(ui.weishi.getText());
+    }
+
+
+    
+
+
+    var qimao = ui.qimao.isChecked();
+    if (qimao) {
+        appArray.push(ui.qimao.getText());
+    }
+ 
+    // var fanqie = ui.fanqie.isChecked();
+    // if (fanqie) {
+    //     appArray.push(ui.fanqie.getText());
+    // }
+   
+    // var hongbao = ui.hongbao.isChecked();
+    // if (hongbao) {
+    //     appArray.push(ui.hongbao.getText());
+    // }
+    // var taokandian = ui.taokandian.isChecked();
+    // if (taokandian) {
+    //     appArray.push(ui.taokandian.getText());
+    // }
+    // var youyan = ui.youyan.isChecked();
+    // if (youyan) {
+    //     appArray.push(ui.youyan.getText());
+    // }
+    // var caidan = ui.caidan.isChecked();
+    // if (caidan) {
+    //     appArray.push(ui.caidan.getText());
+    // }
+    // //lizhi
+    // var lizhi = ui.lizhi.isChecked();//
+    // if (lizhi) {
+    //     appArray.push(ui.lizhi.getText());
+    // }
+    return appArray;
+}
     // var foreachTimes = ui.txtForeachTimes.getText();
     // var screenSileTimes = ui.txtScreenSileTimes.getText();
     // var isShowConsole = ui.switchIsShowConsole.isChecked();
     // var timesInterval = ui.txtScreenSileTimes
+
+
+    main();
+    /**
+     * @param {测试用} msg 
+     */
+    function main(msg){
+        threads.start(function () {
+            msg='测试用'
+            // 移动("/storage/emulated/0/脚本/辅助小管家/zip文件专用dome/test/AutoWool-main/main.js")
+            /**测试wools模块 */
+    
+            // /**测试通用执行 */
+            // if(模块是否存在('woolfeels')){
+            //     var appArrayrc = getAppList();
+            //     for(var i=0;i<appArrayrc.length;i++){
+            //         log(appArrayrc[i])          
+            //     }
+                
+                
+        
+            //     log(woolfeels.测试模块是否可用);
+            //     var woolStorage = storages.create("huangshao_yi@163.com");//创建本地存储
+            //     var foreachTimes = woolStorage.get("foreachTimes");
+            //     var screenSileTimes = woolStorage.get("screenSileTimes");
+            //     var isShowConsole = woolStorage.get("isShowConsole");
+            //     var timesInterval = woolStorage.get("timesInterval");
+            //     log(appArrayrc, foreachTimes, screenSileTimes, isShowConsole, timesInterval);
+            //     woolfeels.woolfeel(appArrayrc, foreachTimes, screenSileTimes, isShowConsole, timesInterval);
+        
+            // }
+    
+    
+    
+            // /**测试更新文件 */
+            // 测试更新模块()
+            // function 测试更新模块(){
+            //     var app返回结果= bmob.BQL("select * from vesionup where softName='私房钱辅助助手'").results
+            //     log('文件个数：'+app返回结果.length)
+            //     for(var i=0;i<app返回结果.length;i++){
+            //         if(files.isFile('./modules/热更新.js')){
+            //             热更新.更新(app返回结果[i].jsUrl,app返回结果[i].fileTree,app返回结果[i].jsName)
+                        
+            //         }
+            //     }
+            // }
+    
+    
+            /**测试时间模块 */
+            // if(模块是否存在('Time')){
+            //     log(Time.时间)
+            //     log(Time.getTime)
+            // }
+    
+    
+            // /**测试前端app选取模块 */
+            // var appArrayrc = getAppList();
+            // for(var i=0;i<appArrayrc.length;i++){
+            //     log(appArrayrc[i])          
+            // }
+    
+    
+        });
+        
+    }
+    
