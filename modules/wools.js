@@ -1,5 +1,13 @@
+if(模块是否存在('人工划屏')){var 人工划屏=模块导入('人工划屏')};
+function 模块是否存在(jsname){
+    return (files.isFile('./'+jsname+'.js'))
+}
+function 模块导入(jsname){
+    var jsname = require('./'+jsname+'.js');
+    log(jsname.测试模块是否可用)
+    return jsname
+}
 
-var 人工划屏 = require('./人工划屏.js');
 /**
  * 薅羊毛
  * @param {应用列表} appArray 

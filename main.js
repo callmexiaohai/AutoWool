@@ -1,17 +1,4 @@
 "ui"; 
-var url="https://github.com/callmexiaohai/AutoWool.git"
-var githubUrl=url.replace('.git','')+'/archive/main.zip'
-// log(githubUrl)
-var 仓库名字=githubUrl.split('/')[4]
-var 作者名字=githubUrl.split('/')[3]
-log('仓库名字,作者名字:',仓库名字,作者名字)
-if(模块是否存在('Time')){var Time=模块导入('Time')};
-if(模块是否存在('热更新')){var 热更新=模块导入('热更新')};
-if(模块是否存在('woolfeels')){var woolfeels=模块导入('woolfeels')};
-if(模块是否存在('wools')){var wools=模块导入('wools')};
-if(模块是否存在('版本')){var 获取版本=模块导入('版本');var 版本=获取版本.版本;var 研发专用服务器版本=获取版本.服务器版本;log(版本,研发专用服务器版本);};//研发专用，需要更新上2020-10-14版本 v1.0.6
-log('研发进度：将更新日志，放入版本模块中，读取array到app显示',获取版本.更新20201014) 
-
 const APPID = 'aa0da8d846d34075a61da6762c0e04a2';// APPID
 const REST_ID = 'de4902c46e3c35f00e9c1679c47a106a'; //REST ID
 
@@ -196,11 +183,27 @@ var 字体颜色 = "#dd000000"
 var 账号 = {
     "123": "123"
 }
+var url="https://github.com/callmexiaohai/AutoWool.git"
+var githubUrl=url.replace('.git','')+'/archive/main.zip'
+// log(githubUrl)
+var 仓库名字=githubUrl.split('/')[4]
+var 作者名字=githubUrl.split('/')[3]
+log('仓库名字,作者名字:',仓库名字,作者名字)
+if(模块是否存在('Time')){var Time=模块导入('Time')};
+if(模块是否存在('热更新')){var 热更新=模块导入('热更新')};
+if(模块是否存在('woolfeels')){var woolfeels=模块导入('woolfeels')};
+if(模块是否存在('wools')){var wools=模块导入('wools')};
+if(模块是否存在('版本')){var 获取版本=模块导入('版本');var 版本=获取版本.版本;log('app版本：',版本)};//研发专用，需要更新上2020-10-14版本 v1.0.6
+log('研发进度：将更新日志，放入版本模块中，读取array到app显示',获取版本.更新20201014) 
+
+// 服务器版本更新('v1.0.9')  //每次研发都需要更换版本,同时修改  版本.js中的版本号
+
+
 ui.layout(
     <drawer id="drawer">
         <vertical>
             <appbar>
-                <toolbar bg="#FF5c50e6" id="toolbar" title="我的私房钱{{版本}}" paddingTop="2dp" h="auto" >
+                <toolbar bg="#FF5c50e6" id="toolbar" title="辅助小管家{{版本}}" paddingTop="2dp" h="auto" >
                 </toolbar>
                 <tabs id="tabs" />
             </appbar>
@@ -587,48 +590,39 @@ ui.emitter.on("resume", function () {
     // 此时根据无障碍服务的开启情况，同步开关的状态
     ui.autoService.checked = auto.service != null;
 });
-if(研发专用服务器版本!==版本){
-    log(研发专用服务器版本,版本)
-    log('服务器版本有更新了')
-    服务器版本更新(研发专用服务器版本)  //开发者是否上传服务器是否存在更新
-}
 
-function 服务器版本更新(msg){
-    threads.start(function () {
-        var objectId= bmob.BQL("select * from vesionup where softName='辅助小管家'").results[0].objectId//获取objectId
-        log('获取服务器版本objectId：',objectId)
-        log(bmob.updateObject("vesionup",objectId,{"jsVesion":msg})) //更新数据
-    });
 
-}
 
-// 检查更新();
+
+检查更新();
 /**
  * 
  * @param {打开自动自检更新} msg 
  */
 function 检查更新(msg){
+    var msg='打开自动更新'
+    log(msg)
+    // 开发节点
+    var IMEI =device.getIMEI()
+    //BQL查询 按版本号排序，显示页面从第2条记录开始显示1条记录，翻页可以使用
+    // log(bmob.BQL("select * from iPhone  where iPhoneImei='"+IMEI+"'").results[0])
+    // log(result)
+         
     threads.start(function () {
-        var msg='打开自动更新'
-        log(msg)
-        // 开发节点
-        var IMEI =device.getIMEI()
-        // log('当前设备IMEI:'+IMEI)
-        //BQL查询 按版本号排序，显示页面从第2条记录开始显示1条记录，翻页可以使用
-        // log(bmob.BQL("select * from iPhone  where iPhoneImei='"+IMEI+"'").results[0])
-        // log(result)
-    
-        
-        // 判断当前设备是否注册！！
+    // 判断当前设备是否注册！！                    
         var imeinull= bmob.BQL("select * from iPhone  where iPhoneImei='"+IMEI+"'").results.length
         log("该手机是否注册："+imeinull)
         if(imeinull=='1'){
-            log('开始更新')
-            var app返回版本= bmob.BQL("select * from vesionup where softName='辅助小管家'").results[0].jsVesion
-            log('app返回版本:',app返回版本)
+
+            log('有权限更新，开始检查更新')
             log('当前版本:',版本)
-            if(版本!==app返回版本){
-                log('服务器有最新版本，我要更新了')
+
+            var 服务器版本= bmob.BQL("select * from vesionup where softName='辅助小管家'").results[0].jsVesion
+            
+            log('app服务器版本:',服务器版本)  
+            log('服务器版本:',服务器版本)
+            if(版本!==服务器版本){
+                log('发现新版本，是否需要更新') 
                 // github下载的脚本=获取下载的脚本()
                 // log('github下载的脚本:',github下载的脚本)
                 // log('下载完成')
@@ -638,13 +632,14 @@ function 检查更新(msg){
                 // var a=files.cwd()+"/main.js"
                 // engines.execScriptFile(a);
 
+                            
             }else{
                 log('当前版本是最新版')
             }
         }else{
             log('该手机尚未注册，请注册！')
         }
-    });
+     });
 
 }
 
@@ -700,19 +695,22 @@ function 加载左上角菜单栏(msg) {
                     log("该手机是否注册："+imeinull)
                     if(imeinull=='1'){
                         log('开始更新')
-                        var app返回版本= bmob.BQL("select * from vesionup where softName='辅助小管家'").results[0].jsVesion
-                        log('app返回版本:',app返回版本)
                         log('当前版本:',版本)
-                        if(版本!==app返回版本){
+        
+                        var 服务器版本= bmob.BQL("select * from vesionup where softName='辅助小管家'").results[0].jsVesion
+                        log('app服务器版本:',服务器版本)
+
+                        log('服务器版本:',服务器版本)
+                        if(版本!==服务器版本){
                             log('服务器有最新版本，我要更新了')
-                            // github下载的脚本=获取下载的脚本()
-                            // log('github下载的脚本:',github下载的脚本)
-                            // log('下载完成')
-                            // sleep(2000)
-                            // 移动(github下载的脚本)
-                            // sleep(2000)
-                            // var a=files.cwd()+"/main.js"
-                            // engines.execScriptFile(a);
+                            github下载的脚本=获取下载的脚本()
+                            log('github下载的脚本:',github下载的脚本)
+                            log('下载完成')
+                            sleep(2000)
+                            移动(github下载的脚本)
+                            sleep(2000)
+                            var a=files.cwd()+"/main.js"
+                            engines.execScriptFile(a);
             
                         }else{
                             log('当前版本是最新版')
@@ -869,6 +867,7 @@ function 获取下载的脚本(){
       log('code=',r.statusCode)  // code= 200 代表成功
       var zipFile=r.body.bytes()
       if(zipFile){
+          log('连接成功，下载中.....')
         var 代码路径=保存zip文件(zipFile)
         return 代码路径
       //   return files.read(代码路径) //文件太大，读取bytes 会报错
@@ -918,12 +917,13 @@ function 获取下载的脚本(){
   function 移动(文件路径){//遍历文件夹下所有的文件夹和文件
     //同一目录下的同一文件名
       log('开始移动')
+      log(文件路径)
     //   /storage/emulated/0/脚本/辅助小管家/zip文件专用dome/test/AutoWool-main/main.js
     var dir = 文件路径.replace('main.js','');
     log('zip文件专用dome/test/'+仓库名字+'-main/main.js')
     var softduir= 文件路径.replace('zip文件专用dome/test/'+仓库名字+'-main/main.js','');
     log('下载路径：',dir)
-    log('软件路径：',softduir)
+    log('软件路径softduir：',softduir+'辅助小管家')
     var arr = files.listDir(dir);
 
 
@@ -943,9 +943,8 @@ function 获取下载的脚本(){
           log(dir+"/"+arr[i]+"有："+arr1.length+"文件")
           for(ii=0;ii<arr1.length;ii++){
             log(arr1[i]+"目录："+ii+'--->'+arr1[ii]);
-            var dir1=dir+arr[i]+"/"+arr1[i]
-            var arro=dir1
-            var arrn=dir1.replace('zip文件专用dome/test/'+仓库名字+'-main/','')      
+            var arro=dir+arr[i]+"/"+arr1[ii] 
+            var arrn=softduir+arr[i]+"/"+arr1[ii]
             log('原文件路径：'+arro)      
             log('需移动文件路径：'+arrn)
             log(files.move(arro,arrn))
