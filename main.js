@@ -1,4 +1,6 @@
-"ui"; 
+"ui";
+
+ 
 const APPID = 'aa0da8d846d34075a61da6762c0e04a2';// APPID
 const REST_ID = 'de4902c46e3c35f00e9c1679c47a106a'; //REST ID
 
@@ -193,9 +195,11 @@ if(模块是否存在('Time')){var Time=模块导入('Time')};
 if(模块是否存在('热更新')){var 热更新=模块导入('热更新')};
 if(模块是否存在('woolfeels')){var woolfeels=模块导入('woolfeels')};
 if(模块是否存在('wools')){var wools=模块导入('wools')};
+
+
+
 if(模块是否存在('版本')){var 获取版本=模块导入('版本');var 版本=获取版本.版本;log('app版本：',版本)};//研发专用，需要更新上2020-10-14版本 v1.0.6
 log('研发进度：将更新日志，放入版本模块中，读取array到app显示',获取版本.更新20201014) 
-
 // 服务器版本更新('v1.0.9')  //每次研发都需要更换版本,同时修改  版本.js中的版本号
 
 
@@ -225,7 +229,9 @@ ui.layout(
                             {/* <checkbox id="fanqie" text="番茄免费小说" textSize="16sp" />
                             <checkbox id="taokandian" text="淘看点" textSize="16sp" /> */}
                             <horizontal gravity="right">
-                                <button style="Widget.AppCompat.Button.Colored" id="通用执行" text="执行" padding="12dp" w="auto" />
+                            <button style="Widget.AppCompat.Button.Colored" id="清除通知" text="清除通知" padding="12dp" w="auto" />
+                            <button style="Widget.AppCompat.Button.Colored" id="清除应用" text="清除应用" padding="12dp" w="auto" />
+                            <button style="Widget.AppCompat.Button.Colored" id="通用执行" text="执行" padding="12dp" w="auto" />
                                 <button style="Widget.AppCompat.Button.Colored" id="关闭线程" text="关闭线程" />
                             </horizontal>
                         </vertical>
@@ -470,6 +476,29 @@ ui.Login.on("click", () => {
 ui.Exit.on("click", () => {
     exit()
 })
+
+
+
+ui.清除通知.on("click", () => {
+    threads.start(function () {
+        log(funs.模块是否存在)
+        funs.清理通知栏();
+        
+    });
+
+    toast('清除通知成功！')
+})
+
+
+ui.清除应用.on("click", () => {
+    threads.start(function () {
+        log(funs.模块是否存在)
+        funs.清除应用();
+    });
+
+    toast('清除通知成功！')
+})
+
 ui.注销软件.on("click", () => {
     var hsyStorage = storages.create("huangshao_yi@163.com");//创建本地存储
         hsyStorage.put("ID", "");
@@ -590,7 +619,6 @@ ui.emitter.on("resume", function () {
     // 此时根据无障碍服务的开启情况，同步开关的状态
     ui.autoService.checked = auto.service != null;
 });
-
 
 
 
@@ -805,21 +833,29 @@ function 加载初始化数据(msg) {
     if (timesInterval != null) {
         ui.txtScreenSileTimesInterval.setText(timesInterval);
     }
-    if (appInstallDateTime != null) {
-        var curTime = new Date();
-        var currentTime = new Date(parseInt(curTime.getFullYear()), parseInt(curTime.getMonth() + 1), parseInt(curTime.getDate()), parseInt(curTime.getHours()), parseInt(curTime.getMinutes()), parseInt(curTime.getSeconds()));
-        var appInstallDate = appInstallDateTime.toString().split("-");
-        var getDay = appInstallDate[2].split(" ")[0]; //天
-        var hourMM = appInstallDate[2].split(" ")[1];//时分秒
-        var appInstallTime = new Date(parseInt(appInstallDate[0]), parseInt(appInstallDate[1]), parseInt(getDay), hourMM.split(":")[0], hourMM.split(":")[1], parseInt(0));
-        var seconds=currentTime - appInstallTime;
-        if (seconds/(1000 * 60 * 60 * 24)>3000000000000) {
-            alert("已经过去3天了,烦请打赏一下作者，您的支持是作者最大的动力！");
-            woolStorage.put("appInstallDateTime", "" + getTime() + "");
-        }
-    } else {
-        woolStorage.put("appInstallDateTime", "" + getTime() + "");
-    }
+
+
+    // if (appInstallDateTime != null) {
+    //     var curTime = new Date();
+    //     var currentTime = new Date(parseInt(curTime.getFullYear()), parseInt(curTime.getMonth() + 1), parseInt(curTime.getDate()), parseInt(curTime.getHours()), parseInt(curTime.getMinutes()), parseInt(curTime.getSeconds()));
+    //     var appInstallDate = appInstallDateTime.toString().split("-");
+    //     var getDay = appInstallDate[2].split(" ")[0]; //天
+    //     var hourMM = appInstallDate[2].split(" ")[1];//时分秒
+    //     var appInstallTime = new Date(parseInt(appInstallDate[0]), parseInt(appInstallDate[1]), parseInt(getDay), hourMM.split(":")[0], hourMM.split(":")[1], parseInt(0));
+    //     var seconds=currentTime - appInstallTime;
+    //     // var 安装后天数=seconds/(1000 * 60 * 60 * 24)
+    //     // log('安装到现在有：',安装后天数)
+    //     // if (seconds/(1000 * 60 * 60 * 24)>3000000000000) {
+    //     //     alert("已经过去3天了,烦请打赏一下作者，您的支持是作者最大的动力！");
+    //     //     if(模块是否存在('Time')){
+    //     //             log(Time.时间)
+    //     //             log(Time.getTime)
+    //     //         }else{}
+    //     //     woolStorage.put("appInstallDateTime", "" + Time.getTime() + "");
+    //     // }
+    // } else {
+    //     woolStorage.put("appInstallDateTime", "" + Time.getTime() + "");
+    // }
 }
 
 
@@ -1105,4 +1141,5 @@ function getAppList() {
         });
         
     }
+    
     

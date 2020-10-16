@@ -1,4 +1,5 @@
 if(模块是否存在('人工划屏')){var 人工划屏=模块导入('人工划屏')};
+if(模块是否存在('funs')){var funs=模块导入('funs')};
 function 模块是否存在(jsname){
     return (files.isFile('./'+jsname+'.js'))
 }
@@ -27,9 +28,12 @@ function woolfeel(appArray, foreach_count, see_count, isShowConsole, timesInterv
             let appName = appArray[y];
             toast("当前薅羊毛程序" + appName);
             console.log("当前薅羊毛程序" + appName);
+            
+            log(funs.测试模块是否可用);
+            funs.清理应用();
+            
             app.launchApp(appName);
             sleep(10000);//目前无法判断网速和splash时间，只能延迟久一点。10秒延迟。
-
             
 
 
@@ -73,6 +77,7 @@ function woolfeel(appArray, foreach_count, see_count, isShowConsole, timesInterv
         console.error(i);
         sleep(1000);
         if (i == 1) {
+            console.hide()
             home();//返回主页面
             return;
         }
