@@ -29,8 +29,8 @@ function woolfeel(appArray, foreach_count, see_count, isShowConsole, timesInterv
             toast("当前薅羊毛程序" + appName);
             console.log("当前薅羊毛程序" + appName);
             
-            log(funs.测试模块是否可用);
-            funs.清理应用();
+            // log(funs.测试模块是否可用);
+            // funs.清理应用();
             
             app.launchApp(appName);
             sleep(10000);//目前无法判断网速和splash时间，只能延迟久一点。10秒延迟。
