@@ -671,9 +671,6 @@ function 检查更新(msg){
 
 }
 
-
-
-
 // 启用左右菜单栏
 加载左上角菜单栏();
 加载左右角菜单栏();
@@ -797,6 +794,23 @@ function 加载左右角菜单栏(msg) {
         e.consumed = true;
     });
 }
+
+
+
+
+
+ui.保存配置.click(function () {
+    var woolStorage = storages.create("huangshao_yi@163.com");//创建本地存储
+    woolStorage.put("foreachTimes", "" + ui.txtForeachTimes.getText() + "");
+    woolStorage.put("screenSileTimes", "" + ui.txtScreenSileTimes.getText() + "");
+    woolStorage.put("isShowConsole", "" + ui.switchIsShowConsole.isChecked() + "");
+    woolStorage.put("timesInterval", "" + ui.txtScreenSileTimesInterval.getText() + "");
+    toast("薅羊毛配置保存成功！");
+});
+
+
+
+
 /**
  * @param {初始化UI和数据} msg 
  */
@@ -858,7 +872,16 @@ function 加载初始化数据(msg) {
     // }
 }
 
-
+截图自动执行()
+function 截图自动执行(){
+    threads.start(function () {
+        var beginBtn;
+           if (beginBtn = classNameContains("Button").textContains("立即开始").findOne(2000)) {
+               log('截图出现了')
+               beginBtn.click();
+           }
+       });}
+         
 /**
  * @param {通用主窗口执行} msg 
  */
