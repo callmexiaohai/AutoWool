@@ -1,6 +1,6 @@
 "ui";
 
- 
+
 const APPID = 'aa0da8d846d34075a61da6762c0e04a2';// APPID
 const REST_ID = 'de4902c46e3c35f00e9c1679c47a106a'; //REST ID
 
@@ -195,7 +195,10 @@ if(模块是否存在('Time')){var Time=模块导入('Time')};
 if(模块是否存在('热更新')){var 热更新=模块导入('热更新')};
 if(模块是否存在('woolfeels')){var woolfeels=模块导入('woolfeels')};
 if(模块是否存在('wools')){var wools=模块导入('wools')};
-
+if(files.isFile('./modules/文本转语音.js')){
+    var 说 = require('./modules/文本转语音.js');
+    说.测试()
+}
 
 
 if(模块是否存在('版本')){var 获取版本=模块导入('版本');var 版本=获取版本.版本;log('app版本：',版本)};//研发专用，需要更新上2020-10-14版本 v1.0.6
