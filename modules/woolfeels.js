@@ -1,5 +1,9 @@
 if(模块是否存在('人工划屏')){var 人工划屏=模块导入('人工划屏')};
 if(模块是否存在('funs')){var funs=模块导入('funs')};
+if(模块是否存在('文本转语音')){var 说=模块导入('文本转语音')};
+
+
+
 function 模块是否存在(jsname){
     return (files.isFile('./'+jsname+'.js'))
 }
@@ -61,6 +65,18 @@ function woolfeel(appArray, foreach_count, see_count, isShowConsole, timesInterv
                 } else if (appName == '快手极速版') {
                     log('判断是什么APP:'+appName)
 
+
+                    if(foreach_count==z){
+                        //快手短视频的金币数量
+                    var 金币收益 = className("android.view.View").text("金币收益").findOne()
+                    var target = 金币收益.parent().parent().child(0).text()              
+                    var kuaishoujb=target
+                    说.说('app金币数量'+target)
+                    var woolStorage = storages.create("huangshao_yi@163.com");//创建本地存储
+                    var kuaishoujb=woolStorage.put("kuaishoujb",kuaishoujb);
+
+                    说.说('本地存储金币数量'+kuaishoujb)
+                    }
                     人工划屏.划屏操作("上", timesInterval)
                     continue;
                 }

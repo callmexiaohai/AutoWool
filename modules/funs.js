@@ -1,31 +1,39 @@
 
 
-// function 切换指针(){
-//     app.startActivity({
-//         action: "android.intent.action.VIEW", //此处可为其他值
-//         packageName: "com.android.settings",
-//         className: "com.android.settings.Settings$DevelopmentSettingsActivity"
-//         //此处可以加入其他内容，如data、extras
-//     });
-//     sleep(200);
-//     while (!textContains("指针位置").exists()) {
-//         //sleep(50);
-//         scrollDown();
-//         sleep(100);
-//     }
-//     var zz = textContains("指针位置").findOne(5000);
-//     if (zz) {
-//         log('发现指针')
-//         sleep(8000)
-//         // a = click("指针位置");
-//         // toastLog("指针位置切换成功：" + a);
-//         // sleep(3000)
-//         // back();
-//     }
-    
-    
-// }
+
 var funs={};
+
+
+funs.切换指针=function(){
+    app.startActivity({
+        action: "android.intent.action.VIEW", //此处可为其他值
+        packageName: "com.android.settings",
+        className: "com.android.settings.Settings$DevelopmentSettingsActivity"
+        //此处可以加入其他内容，如data、extras
+    });
+    sleep(200);
+    while (!textContains("指针位置").exists()) {
+        //sleep(50);
+        scrollDown();
+        sleep(100);
+    }
+    var zz = textContains("指针位置").findOne(5000);
+    if (zz) {
+        log('发现指针')
+        sleep(8000)
+    }
+    
+    
+}
+funs.存=function(stostr,stostrs){
+    var woolStorage = storages.create("huangshao_yi@163.com");//创建本地存储
+    woolStorage.put(stostr,stostrs);
+}
+funs.取=function(stostr){
+    var woolStorage = storages.create("huangshao_yi@163.com");//创建本地存储
+    return woolStorage.get(stostr);
+}
+
 funs.测试模块是否可用='funs,模块可用';
 // funs.切换指针=切换指针();
 // funs.清理通知栏=清理通知栏();

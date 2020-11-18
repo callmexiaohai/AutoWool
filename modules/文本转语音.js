@@ -23,7 +23,7 @@ var 文本转语音={};
          //voiceConverting = false;
      }
  }));
- 文本转语音.测试=function(){
+ 文本转语音.测试模块是否可用=function(){
      tts.speak("语音模块导入成功", tts.QUEUE_ADD, null);
  }
  文本转语音.说=function(teststr){
