@@ -202,7 +202,21 @@ if(files.isFile('modules/文本转语音.js')){
 
 
 if(模块是否存在('版本')){var 获取版本=模块导入('版本');var 版本=获取版本.版本;log('app版本：',版本)};//研发专用，需要更新上2020-10-14版本 v1.0.6
-// log('研发进度：将更新日志，放入版本模块中，读取array到app显示',获取版本.更新20201014) 
+log('【快手极速版】，调出金币，在遍历控件中调试；研发进度：将更新日志，放入版本模块中，读取array到app显示',获取版本.更新20201014) 
+
+// 调试部分代码
+// var str=""
+// var list = text('金币每日凌晨自动兑换成现金').findOnce().parent()
+// liststr(list,str)
+
+
+
+
+
+
+
+
+
 // 服务器版本更新('v1.0.9')  //每次研发都需要更换版本,同时修改  版本.js中的版本号
 
 
@@ -220,6 +234,7 @@ ui.layout(
                     <scroll>
                         <vertical gravity="center">
                             <checkbox id="kuaishou" text="快手极速版" textSize="16sp" checked="true" />
+                            <input id="txtkuaishoujb" text="1" hint="快手极速版金币数量" inputType="number" padding="8 8 8 8" />
                             <checkbox id="douyin" text="抖音极速版" textSize="16sp" checked="true" />
                             <checkbox id="shuabao" text="刷宝短视频" textSize="16sp" checked="true" />
                             <checkbox id="huoshan" text="火山极速版" textSize="16sp" checked="true" />
@@ -295,21 +310,7 @@ ui.layout(
                         </vertical>
                     </scroll>
                 </frame>
-                {/* Frame3 ， 金币*/}
-                <frame>
-                    <scroll>
-                        <vertical>
-                            <vertical>
-                                <text text="快手极速版：" textColor="red" padding="8 8 8 8" />
-                                <input id="txtkuaishoujb" text="1" hint="快手极速版金币数量" inputType="number" padding="8 8 8 8" />
-                            </vertical>
-                            
-                            <horizontal>
-                                <button style="Widget.AppCompat.Button.Colored" id="保存配置" text="保存配置" padding="12dp" w="*" />
-                            </horizontal>
-                        </vertical>
-                    </scroll>
-                </frame>
+                
 
                 {/* Frame4 ， 邀请码 */}
                 <frame>
@@ -839,6 +840,7 @@ ui.保存配置.click(function () {
     funs.存("isShowConsole", "" + ui.switchIsShowConsole.isChecked() + "");
     funs.存("timesInterval", "" + ui.txtScreenSileTimesInterval.getText() + "");
     toast("薅羊毛配置保存成功！");
+    log(ui.switchIsShowConsole.isChecked())
 });
 
 
@@ -862,17 +864,17 @@ function 加载初始化数据(msg) {
     if (funs.取("screenSileTimes") != null) {
         ui.txtScreenSileTimes.setText(funs.取("screenSileTimes"));
     }
-    if (funs.取("isShowConsole") != null && funs.取("kuaishoujb") == "true") {
+    if (funs.取("isShowConsole") != null && funs.取("isShowConsole") == "true") {
         ui.switchIsShowConsole.setChecked(true);
     } else {
-        ui.switchIsShowConsole.setChecked(true);
+        ui.switchIsShowConsole.setChecked(false);
     }
     if (funs.取("timesInterval") != null) {
         ui.txtScreenSileTimesInterval.setText(funs.取("timesInterval"));
     }
 
      if (funs.取("kuaishoujb") != null) {
-        ui.txtkuaishoujb.setText(funs.取("kuaishoujb"));
+        ui.txtkuaishoujb.setText('金币数量：'+funs.取("kuaishoujb"));
     }
 
 
@@ -900,31 +902,30 @@ function 加载初始化数据(msg) {
 }
 
 
-function 截图自动执行(){
-    threads.start(function () {
-        var beginBtn;
-           if (beginBtn = classNameContains("Button").textContains("立即开始").findOne(2000)) {
-               说.说('截图出现了')
-               beginBtn.click();
-           }
-       });}
+
          
 /**
  * @param {通用主窗口执行} msg 
  */
 ui.通用执行.click(function () {
     log('通用划屏操作')
+    log('截图开始')
     threads.start(function () {
         if(!requestScreenCapture()){
             toast("请求截图失败");
             stop();
         }else{
-            sleep(3000)
-            截图自动执行()
             log('截图权限投放成功')
         }
     });
-    
+
+    log('等下是不是  自动截图开始')
+    threads.start(function () {
+        while(true){
+        }
+    });
+
+    log('截图判断结算了哦')
     threads.start(function () { 
         //在新线程执行的代码
         if(模块是否存在('woolfeels')){

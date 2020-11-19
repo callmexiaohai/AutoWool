@@ -1,4 +1,5 @@
 var 人工划屏={};
+人工划屏.测试模块是否可用='人工划屏,模块可用'
 /**
  * 
  * @param {倒计时时间} 随机间隔时间 
@@ -25,6 +26,7 @@ var 人工划屏={};
  */
 人工划屏.划屏操作 = function(strs,timesInterval){
     if(strs=="上"){
+        log('进入了上滑的位置')
         x1=random(device.width*0.4,device.width*0.5);
         y1=random(device.height*0.8,device.height*0.9);
         x2=random(device.width*0.6,device.width*0.8);
