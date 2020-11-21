@@ -86,9 +86,9 @@ function woolfeel(appArray, foreach_count, see_count, isShowConsole, timesInterv
                     log('判断是什么APP:'+appName)
                     if(z==see_count){查看快手金币数量()}
                     
-                    说.说('间隔多少秒划屏：'+timesInterval)
+                    // 说.说('间隔多少秒划屏：'+timesInterval)
                     // 说.说(人工划屏1.测试模块是否可用('woolfroo 人工划屏'))
-                    说.说(人工划屏.测试模块是否可用('woolfroo 人工划屏'))
+                    // 说.说(人工划屏.测试模块是否可用('woolfroo 人工划屏'))
                     人工划屏.划屏操作("上", timesInterval)
                     
 
@@ -154,7 +154,7 @@ function 截图自动执行(){
     threads.start(function () {
         var beginBtn;
            if (beginBtn = classNameContains("Button").textContains("立即开始").findOne(2000)) {
-               说.说('截图出现了')
+            //    说.说('截图出现了')
                beginBtn.click();
            }
     });
