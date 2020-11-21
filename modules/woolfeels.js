@@ -1,9 +1,7 @@
-if(模块是否存在('人工划屏')){var 人工划屏=模块导入('人工划屏')};
-if(模块是否存在('funs')){var funs=模块导入('funs')};
-if(模块是否存在('文本转语音')){var 说=模块导入('文本转语音')};
-
-
-
+// if(模块是否存在('人工划屏')){var 人工划屏=模块导入('人工划屏')};
+// if(模块是否存在('funs')){var funs=模块导入('funs')};
+// if(模块是否存在('文本转语音')){var 说=模块导入('文本转语音')};
+// 一定在主程序引用 模块
 function 模块是否存在(jsname){
     return (files.isFile('./'+jsname+'.js'))
 }
@@ -89,7 +87,8 @@ function woolfeel(appArray, foreach_count, see_count, isShowConsole, timesInterv
                     if(z==see_count){查看快手金币数量()}
                     
                     说.说('间隔多少秒划屏：'+timesInterval)
-                    log(人工划屏.测试模块是否可用)
+                    // 说.说(人工划屏1.测试模块是否可用('woolfroo 人工划屏'))
+                    说.说(人工划屏.测试模块是否可用('woolfroo 人工划屏'))
                     人工划屏.划屏操作("上", timesInterval)
                     
 
