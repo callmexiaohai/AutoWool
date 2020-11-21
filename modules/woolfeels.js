@@ -81,6 +81,7 @@ function woolfeel(appArray, foreach_count, see_count, isShowConsole, timesInterv
                 console.info(messagge);
                 if (appName == "抖音极速版") {
                     log('判断是什么APP:'+appName)
+                    log(人工划屏.测试模块是否可用)
                     人工划屏.划屏操作("上", timesInterval)
                     continue;
                 } else if (appName == '快手极速版') {
