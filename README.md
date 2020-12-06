@@ -89,9 +89,9 @@ b、本声明未涉及的问题参见国家有关法律法规，当本声明与�
 1.更新时间：20200901
 2.UI窗口建立：主窗口、配置、推荐码、注册登录、激活
 3.待完善：建立bmob数据库 对接，实现登录注册模块、激活码获取及更新列表（包含新增模块的新增）设计网址如下
-https://www.bmob.cn/ 
-http://yongshuo1986.ys168.com/
-
+https://www.bmob.cn/ （数据库）
+http://yongshuo1986.ys168.com/（永硕网盘）
+https://www.twilio.com/（免费发送短信）
 
 
 
