@@ -1,7 +1,34 @@
-
-
+var 划 = require('./人工划屏.js');
 
 var funs={};
+
+
+/**
+ * 
+ * @param {*} msg toastAt('sdfsfdsdfs',300,300)
+ * @param {*} x 重新定义toast的x坐标
+ * @param {*} y 重新定义toast的y坐标
+ */
+funs.toastAt0=function(msg, x, y) {
+    importClass(android.widget.Toast);
+    importClass(android.view.Gravity);
+    var toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+    toast.setGravity(Gravity.TOP | Gravity.LEFT, x, y);
+    toast.show();
+  }
+  
+funs.toastAt=function(msg, x, y) {
+    ui.run(() => this.toastAt0(msg, x, y));
+  }
+  
+
+
+// 返回 true 表示锁定
+funs.屏幕是否锁屏=function() {
+    let km = context.getSystemService("keyguard");
+    return km.inKeyguardRestrictedInputMode();
+  };
+// log(isScreenLocked())
 
 
 funs.切换指针=function(){
@@ -68,7 +95,22 @@ funs.清理通知栏=function(){
     }
 
 }
+var dzmun=0
+funs.点赞=function(strmun){
+                    
+    if(strmun%20==0){//整除20，除尽，进入0:0 20:0 40:0 60:0 80:0      
+        划.划("下", 0.8)                    
+        划.划("下", 0.8)
+        var gesturesAry=[[[0,151,[510,764],[510,764],[510,764],[510,764]]],[[0,101,[510,764],[510,764],[510,764]]]]
+        for(let i=0;i<gesturesAry.length;i++){
+            if(i==0){sleep(500);};
+            if(i==1){sleep(0*1000);};
 
+            gestures.apply(null, gesturesAry[i]);
+        };
+        log('点赞'+dzmun+'次')
+    }
+}
 funs.清理应用=function(){
     sleep(2000)
     // 先进入Auto.js ,在关闭应用，meizu_M5 Note 就用这种情况

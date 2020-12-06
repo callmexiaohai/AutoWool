@@ -23,7 +23,7 @@ var 人工划屏={};
  * 
  * @param {滑动的方位} strs 
  */
-人工划屏.划屏操作 = function(strs,timesInterval){
+人工划屏.划 = function(strs,timesInterval){
     if(strs=="上"){
         log('进入了上滑的位置')
         x1=random(device.width*0.4,device.width*0.5);
@@ -132,7 +132,7 @@ var 人工划屏={};
 };
 
 
-人工划屏.测试模块是否可用=function(str){
+人工划屏.测试=function(str){
     return str
 }
 

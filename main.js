@@ -1,5 +1,13 @@
-"ui";
 
+"ui";
+var Time = require('./modules/Time.js');
+var 热更新 = require('./modules/热更新.js');
+var woolfeels = require('./modules/woolfeels.js');
+var wools = require('./modules/wools.js');
+var funs = require('./modules/funs.js');
+var 说 = require('./modules/文本转语音.js');
+var 划 = require('./modules/人工划屏.js');
+var 版本 = require('./modules/版本.js');
 
 const APPID = 'aa0da8d846d34075a61da6762c0e04a2';// APPID
 const REST_ID = 'de4902c46e3c35f00e9c1679c47a106a'; //REST ID
@@ -191,20 +199,11 @@ var githubUrl=url.replace('.git','')+'/archive/main.zip'
 var 仓库名字=githubUrl.split('/')[4]
 var 作者名字=githubUrl.split('/')[3]
 // log('仓库名字,作者名字:',仓库名字,作者名字)
-if(模块是否存在('Time')){var Time=模块导入('Time')};
-if(模块是否存在('热更新')){var 热更新=模块导入('热更新')};
-if(模块是否存在('woolfeels')){var woolfeels=模块导入('woolfeels')};
-if(模块是否存在('wools')){var wools=模块导入('wools')};
-if(模块是否存在('funs')){var funs=模块导入('funs')};
-if(files.isFile('modules/文本转语音.js')){
-    var 说 = require('modules/文本转语音.js');
-}
-if(模块是否存在('人工划屏')){var 人工划屏=模块导入('人工划屏')};
 
-
-if(模块是否存在('版本')){var 获取版本=模块导入('版本');var 版本=获取版本.版本;log('app版本：',版本)};//研发专用，需要更新上2020-10-14版本 v1.0.6
-log('【快手极速版】，调出金币，在遍历控件中调试；研发进度：将更新日志，放入版本模块中，读取array到app显示',获取版本.更新20201014) 
-
+var 版本号=版本.版本;
+log('app版本：',版本号)
+log('【快手极速版】，调出金币，在遍历控件中调试；研发进度：将更新日志，放入版本模块中，读取array到app显示'+版本.更新20201014) 
+log(版本.更新20201119)
 // 调试部分代码
 // var str=""
 // var list = text('金币每日凌晨自动兑换成现金').findOnce().parent()
@@ -225,7 +224,7 @@ ui.layout(
     <drawer id="drawer">
         <vertical>
             <appbar>
-                <toolbar bg="#FF5c50e6" id="toolbar" title="辅助小管家{{版本}}" paddingTop="2dp" h="auto" >
+                <toolbar bg="#FF5c50e6" id="toolbar" title="辅助小管家{{版本号}}" paddingTop="2dp" h="auto" >
                 </toolbar>
                 <tabs id="tabs" />
             </appbar>
@@ -236,9 +235,9 @@ ui.layout(
                         <vertical gravity="center">
                             <checkbox id="kuaishou" text="快手极速版" textSize="16sp" checked="true" />
                             <input id="txtkuaishoujb" text="1" hint="快手极速版金币数量" inputType="number" padding="8 8 8 8" />
-                            <checkbox id="douyin" text="抖音极速版" textSize="16sp" checked="true" />
-                            <checkbox id="shuabao" text="刷宝短视频" textSize="16sp" checked="true" />
-                            <checkbox id="huoshan" text="火山极速版" textSize="16sp" checked="true" />
+                            <checkbox id="douyin" text="抖音极速版" textSize="16sp" checked="flase" />
+                            <checkbox id="shuabao" text="刷宝短视频" textSize="16sp" checked="flase" />
+                            <checkbox id="huoshan" text="火山极速版" textSize="16sp" checked="flase" />
                             <checkbox id="weishi" text="微视" textSize="16sp" />
                             {/* <checkbox id="lizhi" text="栗子视频" textSize="16sp" />
                             <checkbox id="caidan" text="彩蛋视频" textSize="16sp"  />
@@ -289,7 +288,7 @@ ui.layout(
                             </vertical>
                             <vertical>
                                 <text text="滑动屏幕次数（每个App被滑动屏幕次数）：" textColor="red" padding="8 8 8 8" />
-                                <input id="txtScreenSileTimes" text="2000" hint="每个App被滑动屏幕次数" inputType="number" padding="8 8 8 8" />
+                                <input id="txtScreenSileTimes" text="600" hint="每个App被滑动屏幕次数" inputType="number" padding="8 8 8 8" />
                             </vertical>
                             <vertical>
                                 <text text="屏幕滑动时间间隔(秒)：" textColor="red" padding="8 8 8 8" />
@@ -508,9 +507,6 @@ ui.清除通知.on("click", () => {
         说.说('通知清除成功')
         说.说(funs.测试模块是否可用)
     });
-    // if(模块是否存在('人工划屏')){var 人工划屏=模块导入('人工划屏')};
-    // 说.说(人工划屏1.测试模块是否可用('人工划屏1'))
-    // 说.说(人工划屏.测试模块是否可用('人工划屏'))
     toast('清除通知成功！')
 })
 
@@ -528,6 +524,16 @@ ui.注销软件.on("click", () => {
         hsyStorage.put("Password",  "");
         toast('注销成功！')
 })
+
+
+ui.关闭线程.on("click", () => {
+    toast("薅羊毛线程已经被关闭！");
+    threads.shutDownAll();
+    
+})
+
+
+
 
 ui.Login.on("click", () => {
     var isRemember = ui.isRemember.isChecked();
@@ -588,7 +594,7 @@ ui.viewpager.setTitles(["主界面","日常任务", "配置","金币", "推荐�
 ui.tabs.setupWithViewPager(ui.viewpager);
 var items = [
     { AppName: "============视频类============", AppCode: "" },
-    { AppName: "1、快手极速版", AppCode: "23qpavy" },
+    { AppName: "1、快手极速版", AppCode: "804172805" },
     { AppName: "2、抖音极速版", AppCode: "832921214" },
     { AppName: "3、刷宝短视频", AppCode: "A2XP39U" },
     { AppName: "4、火山极速版", AppCode: "209558624" },
@@ -853,6 +859,10 @@ ui.保存配置.click(function () {
  * @param {初始化UI和数据} msg 
  */
 function 加载初始化数据(msg) {
+    threads.start(function(){
+        //console.show()
+    });
+    
     msg="初始化UI和数据"    
     if (funs.取("ID") != null) {
         ui.ID.setText(funs.取("ID"));
@@ -893,10 +903,8 @@ function 加载初始化数据(msg) {
     //     // log('安装到现在有：',安装后天数)
     //     // if (seconds/(1000 * 60 * 60 * 24)>3000000000000) {
     //     //     alert("已经过去3天了,烦请打赏一下作者，您的支持是作者最大的动力！");
-    //     //     if(模块是否存在('Time')){
     //     //             log(Time.时间)
     //     //             log(Time.getTime)
-    //     //         }else{}
     //     //     woolStorage.put("appInstallDateTime", "" + Time.getTime() + "");
     //     // }
     // } else {
@@ -931,7 +939,6 @@ ui.通用执行.click(function () {
     log('截图判断结算了哦')
     threads.start(function () { 
         //在新线程执行的代码
-        if(模块是否存在('woolfeels')){
             var appArrayrc = getAppList();
             for(var i=0;i<appArrayrc.length;i++){
                 log(appArrayrc[i])          
@@ -945,7 +952,7 @@ ui.通用执行.click(function () {
             log(appArrayrc, foreachTimes, screenSileTimes, isShowConsole, timesInterval);
             woolfeels.woolfeel(appArrayrc, foreachTimes, screenSileTimes, isShowConsole, timesInterval);
     
-        }   
+        
 
     });
 });
@@ -1046,16 +1053,7 @@ function 移动(文件路径){//遍历文件夹下所有的文件夹和文件
     
 }
   
-function 模块是否存在(jsname){
-    return (files.isFile('./modules/'+jsname+'.js'))
-}
 
- 
-function 模块导入(jsname){
-      var jsname = require('./modules/'+jsname+'.js');
-    //   log(jsname.测试模块是否可用)
-      return jsname
-}
 
 /**
  * 获取被选择的app，按循序存入数组中
