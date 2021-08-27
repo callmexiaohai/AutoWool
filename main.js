@@ -5,7 +5,7 @@ var 热更新 = require('./modules/热更新.js');
 var woolfeels = require('./modules/woolfeels.js');
 var wools = require('./modules/wools.js');
 var funs = require('./modules/funs.js');
-var 说 = require('./modules/文本转语音.js');
+// var 说 = require('./modules/文本转语音.js');
 var 划 = require('./modules/人工划屏.js');
 var 版本 = require('./modules/版本.js');
 
@@ -504,8 +504,9 @@ ui.清除通知.on("click", () => {
     threads.start(function () {
         // log(funs.模块是否存在)
         // funs.清理通知栏();
-        说.说('通知清除成功')
-        说.说(funs.测试模块是否可用)
+        // 说.说('通知清除成功')
+        // 说.说(funs.测试模块是否可用)
+        log(funs.测试模块是否可用)
     });
     toast('清除通知成功！')
 })
@@ -836,8 +837,8 @@ ui.执行日常任务.click(function () {
 ui.执行日常任务完成情况.click(function () {
     log('执行日常任务完成情况')
     threads.start(function () {
-        
-    说.说(funs.取("kuaishoujb"))
+        log(funs.取("kuaishoujb")) 
+    // 说.说(funs.取("kuaishoujb"))
 
     });
 });
