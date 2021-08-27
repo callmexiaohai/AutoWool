@@ -101,6 +101,9 @@ funs.点赞=function(strmun){
     if(strmun%20==0){//整除20，除尽，进入0:0 20:0 40:0 60:0 80:0      
         划.划("下", 0.8)                    
         划.划("下", 0.8)
+        if(textContains('点击进入直播间')){
+            划.划("下", 0.8)
+        }
         var gesturesAry=[[[0,151,[510,764],[510,764],[510,764],[510,764]]],[[0,101,[510,764],[510,764],[510,764]]]]
         for(let i=0;i<gesturesAry.length;i++){
             if(i==0){sleep(500);};
@@ -142,7 +145,17 @@ funs.清理应用=function(){
     }
 
 }
+ funs.IntTime=function() {
+     //网络北京时间
+    try {
+        var recode_suning = http.get("http://quan.suning.com/getSysTime.do");
+        var suningTime = recode_suning.body.json();
+        return suningTime.sysTime1;
+    } catch (e) {}
+}
 
-
-
+ funs.toTime=function() {
+     //手机本地时间
+    return new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+}
 module.exports=funs;
