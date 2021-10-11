@@ -937,7 +937,7 @@ ui.通用执行.click(function () {
         }
     });
 
-    log('截图判断结算了哦')
+    log('截图判断结 算了哦')
     threads.start(function () { 
         //在新线程执行的代码
             var appArrayrc = getAppList();
